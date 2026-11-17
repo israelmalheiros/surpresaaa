@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Feliz Aniversário! ✨</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ffe6f2, #ffccd5);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: #4d0026;
+            padding: 20px;
+        }
+
+        /* Container do Quiz / Gincana */
+        .quiz-box {
+            background: #ffffff;
+            border: 3px solid #ff80bf;
+            max-width: 450px;
+            width: 100%;
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.4);
+            z-index: 10;
+            text-align: center;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        h2 {
+            font-size: 20px;
+            color: #ff3399;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .btn-opcao {
+            padding: 12px 18px;
+            background: #fff0f5;
+            border: 2px solid #ffb3d9;
+            color: #660033;
+            border-radius: 15px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .btn-opcao:hover {
+            background: #ff66b2;
+            color: white;
+            border-color: #ff3399;
+            transform: translateY(-2px);
+        }
+
+        .erro-msg {
+            color: #e60000;
+            font-size: 14px;
+            margin-top: 12px;
+            min-height: 20px;
+            font-weight: bold;
+        }
+
+        /* TELA FINAL EXATAMENTE IGUAL À FOTO */
+        .final-screen {
+            background-color: #fff0f5;
+            background-image: radial-gradient(#ff80bf 1px, transparent 1px);
+            background-size: 20px 20px;
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            z-index: 20;
+            overflow: hidden;
+        }
+
+        /* Bandeirinhas no topo */
+        .garland {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 40px;
+            background: repeating-linear-gradient(45deg, #ff66b2, #ff66b2 20px, #ff99cc 20px, #ff99cc 40px);
+            opacity: 0.8;
+            clip-path: polygon(0 0, 100% 0, 100% 60%, 50% 100%, 0 60%);
+        }
+
+        .final-card {
+            background: #ffffff;
+            border: 4px solid #ff66b2;
+            border-radius: 35px;
+            width: 100%;
+            max-width: 400px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(255, 105, 180, 0.3);
+            position: relative;
+        }
+
+        /* Balões decorativos */
+        .balloon {
+            position: absolute;
+            width: 35px;
+            height: 45px;
+            background: #ff4d94;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            box-shadow: inset -5px -5px 10px rgba(0,0,0,0.1);
+        }
+        .balloon.left { top: -25px; left: 20px; background: #ff80bf; }
+        .balloon.right { top: -25px; right: 20px; background: #ff3399; }
+
+        /* Estilo do Título Happy Birthday da foto */
+        .title-container {
+            margin-bottom: 15px;
+        }
+
+        .happy-text {
+            font-size: 32px;
+            font-weight: 900;
+            color: #333;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            line-height: 1;
+        }
+
+        .birthday-text {
+            font-size: 36px;
+            font-weight: 900;
+            color: #ff3399;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            text-shadow: 2px 2px 0px #ffe6f2;
+            line-height: 1;
+        }
+
+        /* Caixa de Data / Anos */
+        .date-box {
+            display: inline-block;
+            background: #ff3399;
+            color: white;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 15px;
+            font-weight: bold;
+            margin: 10px 0;
+            box-shadow: 0 4px 10px rgba(255, 51, 153, 0.3);
+        }
+
+        /* Botão Click Here igual da referência */
+        .click-btn {
+            display: inline-block;
+            background: #fff0f5;
+            border: 2px solid #ff66b2;
+            color: #ff3399;
+            padding: 6px 16px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: bold;
+            margin: 5px 0 15px 0;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        /* Ursinho Animado Redondo (Referência da foto) */
+        .bear-circle {
+            width: 150px;
+            height: 150px;
+            background: #fff5f8;
+            border: 3px solid #ff80bf;
+            border-radius: 50%;
+            margin: 0 auto 15px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.2);
+            animation: floatBear 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatBear {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-6px); }
+        }
+
+        .bear-avatar {
+            font-size: 70px;
+        }
+
+        .dear-you-tag {
+            background: #ff3399;
+            color: white;
+            padding: 4px 18px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        .final-msg {
+            font-size: 14px;
+            color: #660033;
+            margin-top: 15px;
+            line-height: 1.5;
+            padding: 0 10px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- GINCANA / QUIZ -->
+    <div class="quiz-box" id="quiz-card">
+        <h2 id="pergunta-titulo">Carregando...</h2>
+        <div class="options-container" id="opcoes-container"></div>
+        <div class="erro-msg" id="erro-msg"></div>
+    </div>
+
+    <!-- TELA FINAL IDÊNTICA À FOTO[cite: 4] -->
+    <div class="final-screen hidden" id="final-screen">
+        <div class="garland"></div>
+        
+        <div class="final-card">
+            <div class="balloon left"></div>
+            <div class="balloon right"></div>
+
+            <div class="title-container">
+                <div class="happy-text">Happy</div>
+                <div class="birthday-text">Birthday</div>
+            </div>
+
+            <div class="date-box">21 Anos 🎉</div>
+            <div>
+                <button class="click-btn">Parabéns! 💌</button>
+            </div>
+
+            <div class="bear-circle">
+                <div class="bear-avatar">🐼🎂</div>
+            </div>
+
+            <div>
+                <span class="dear-you-tag">Dear You</span>
+            </div>
+
+            <div class="final-msg">
+                Que você voe muito alto, conquiste todos os seus sonhos e tenha um dia incrível. O Rael preparou tudo isso com muito carinho para você! 🌸✨
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const perguntas = [
+            {
+                titulo: "Questão 1: Qual é o nome dos pets dela? 🐾",
+                correta: 0,
+                opcoes: [
+                    "Bruce, Zinho e Zumbi",
+                    "Thor, Mel e Bob",
+                    "Pipoca, Fred e Zeus"
+                ]
+            },
+            {
+                titulo: "Questão 2: Quais são as gírias que a Juliana mais fala? ⚡",
+                correta: 0,
+                opcoes: [
+                    "uai, parça e rael",
+                    "E aí, beleza, falou",
+                    "Dale, tchau, valeu"
+                ]
+            }
+        ];
+
+        let perguntaAtual = 0;
+
+        const perguntaTitulo = document.getElementById("pergunta-titulo");
+        const opcoesContainer = document.getElementById("opcoes-container");
+        const erroMsg = document.getElementById("erro-msg");
+        const quizCard = document.getElementById("quiz-card");
+        const finalScreen = document.getElementById("final-screen");
+
+        function carregarPergunta() {
+            erroMsg.innerText = "";
+            const p = perguntas[perguntaAtual];
+            perguntaTitulo.innerText = p.titulo;
+            opcoesContainer.innerHTML = "";
+
+            p.opcoes.forEach((opcao) => {
+                const btn = document.createElement("button");
+                btn.classList.add("btn-opcao");
+                btn.innerText = opcao;
+                
+                const ehCorreta = (opcao === p.opcoes[0]);
+
+                btn.onclick = () => {
+                    if (ehCorreta) {
+                        perguntaAtual++;
+                        if (perguntaAtual < perguntas.length) {
+                            carregarPergunta();
+                        } else {
+                            mostrarTelaFinal();
+                        }
+                    } else {
+                        erroMsg.innerText = "Ops! Resposta incorreta. Tente de novo! 🤭";
+                        btn.style.borderColor = "#ff4d4d";
+                        setTimeout(() => { btn.style.borderColor = "#ffb3d9"; }, 800);
+                    }
+                };
+                opcoesContainer.appendChild(btn);
+            });
+        }
+
+        function mostrarTelaFinal() {
+            quizCard.classList.add("hidden");
+            finalScreen.classList.remove("hidden");
+        }
+
+        carregarPergunta();
+    </script>
+</body>
+</html>
